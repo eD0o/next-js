@@ -2,7 +2,8 @@
 
 ## 2.1 - App Router
 
-There is also another route system called `Pages Router, which was the default before version 13`. 
+There is also another route system called `Pages Router, which was the default before version 13`.
+
 > Nowadays it is recommended to use the App Router.
 
 ### 2.1.2 - Routes
@@ -57,10 +58,10 @@ Exporting a const metadata object will `add meta tags to the page`. It can be ex
 <summary>Example</summary>
 
 ```ts
-import { Metadata } from 'next'; 
+import { Metadata } from 'next';
 
 // use the Metadata inferface to see what are the correct values
-export const metadata: Metadata = { 
+export const metadata: Metadata = {
   title: 'About',
   description: 'About page',
 };
@@ -74,9 +75,37 @@ export default function AboutPage() {
 }
 ```
 
+[![](https://i.imgur.com/SdsQgq6m.jpg)](https://i.imgur.com/SdsQgq6.png)
+
 </details>
 
-[![](https://i.imgur.com/SdsQgq6m.jpg)](https://i.imgur.com/SdsQgq6.png)
+## 2.2 - Link
+
+### 2.2.1 - Link Component
+
+Next.js has the Link component that `allows navigation between pages without the page being reloaded` (client side).
+
+### 2.2.2 - Prefetch
+
+Link automatically prefetch static pages, that is, `Next.js already loads the page in the background so that it is available when the user clicks on the link`.
+
+```ts
+ <Link href="/" prefetch={true}> // (true is the default).
+```
+
+> Prefetch behavior `can only be analyzed in production`.
+
+### 2.2.3 - Internal Link and Scroll
+
+```ts
+// what is typed in front '#' will determine what will be scrolled
+ <Link href="/about#enterprise" prefetch={true}>
+
+// to avoid this behavior, just use scroll={false} to direct to the beginning of the page
+ <Link href="/about#enterprise" prefetch={true} scroll={false}>
+```
+
+---
 
 ## 2.X - Observations
 
