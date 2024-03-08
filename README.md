@@ -105,6 +105,8 @@ Link automatically prefetch static pages, that is, `Next.js already loads the pa
  <Link href="/about#enterprise" prefetch={true} scroll={false}>
 ```
 
+## 2.3 - Server and Client Component
+
 ---
 
 ## 2.X - Observations
