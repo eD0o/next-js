@@ -1,12 +1,11 @@
-'use client'
+import dynamic from 'next/dynamic';
 
-import Width from '@/components/width';
+const Width = dynamic(() => import('@/components/width'), { ssr: false });
 
 export default function AboutPage() {
   return (
     <>
-      {/* won't run if 'use client' is not declared */}
-      <button onClick={() => console.log('test')}>test</button>
+      <p>About</p>
       <Width />
     </>
   );

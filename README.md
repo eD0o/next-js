@@ -122,7 +122,7 @@ When a component is created, they can have some types:
 - Always `avoid placing client components in the app folder`.
 
 ```tsx
-'use client'
+'use client';
 
 import Width from '@/components/width';
 
@@ -136,6 +136,80 @@ export default function AboutPage() {
   );
 }
 ```
+
+### 2.3.3 - Nested Component
+
+`Server Components can contain both` type Components, but `Client Components cannot contain Server Components`.
+
+> `Avoid defining pages (page.tsx) as Client Components`, always keep them as Server Components, `so they can receive Server and Client Components`.
+
+### 2.3.4 - Pre-rendering
+
+Client Components are pre-rendered on the server, `during pre-rendering, it's not possible to access web APIs such as window and document`. This is why errors such as `document is not defined can occur`.
+
+> If the code is inside `useEffect, it will only be activated on the client`, so we won't have any problems. But `code outside useEffect can cause errors`.
+
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
+export default function Width() {
+  //on this case, the document declared outside useEffect will show an error
+  const [width, setWidth] = useState(document.documentElement.clientWidth);
+  const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(document.documentElement.clientWidth);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
+    <>
+      <p style={{ color: active ? '#680' : '#b00' }}>Screen width: {width}</p>
+      <button onClick={() => setActive((b) => !b)}>Active</button>
+    </>
+  );
+}
+```
+
+So, to solute this, you `can import some component dynamically` to avoid pre-rendering using dynamic():
+
+```tsx
+const Component = dynamic(() => import('@/components/Component'), {
+  ssr: false,
+});
+```
+
+<details>
+<summary>Example</summary>
+
+```tsx
+import dynamic from 'next/dynamic';
+
+// Now, the component will run properly. 
+const Width = dynamic(() => import('@/components/width'), { ssr: false });
+
+export default function AboutPage() {
+  return (
+    <>
+      <p>About</p>
+      <Width />
+    </>
+  );
+}
+```
+
+Even the renderization is different.
+[![](https://i.imgur.com/kwRC7i6m.jpg)](https://i.imgur.com/kwRC7i6.png)
+
+</details>
 
 ---
 
