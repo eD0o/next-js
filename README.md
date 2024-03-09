@@ -21,7 +21,7 @@ The layout.tsx file is the `default layout for all pages`. It is automatically i
 <details>
 <summary>Example</summary>
 
-```ts
+```tsx
 //layout.tsx
 import type { Metadata } from 'next';
 import './globals.scss';
@@ -57,7 +57,7 @@ Exporting a const metadata object will `add meta tags to the page`. It can be ex
 <details>
 <summary>Example</summary>
 
-```ts
+```tsx
 import { Metadata } from 'next';
 
 // use the Metadata inferface to see what are the correct values
@@ -89,7 +89,7 @@ Next.js has the Link component that `allows navigation between pages without the
 
 Link automatically prefetch static pages, that is, `Next.js already loads the page in the background so that it is available when the user clicks on the link`.
 
-```ts
+```tsx
  <Link href="/" prefetch={true}> // (true is the default).
 ```
 
@@ -97,7 +97,7 @@ Link automatically prefetch static pages, that is, `Next.js already loads the pa
 
 ### 2.2.3 - Internal Link and Scroll
 
-```ts
+```tsx
 // what is typed in front '#' will determine what will be scrolled
  <Link href="/about#enterprise" prefetch={true}>
 
@@ -107,8 +107,39 @@ Link automatically prefetch static pages, that is, `Next.js already loads the pa
 
 ## 2.3 - Server and Client Component
 
+When a component is created, they can have some types:
+
+### 2.3.1 - Server Components
+
+- `Have access to the server API` (Node) such as fs, path, and others implemented by Next.js such as fetch and cookies. `Render on the server`.
+- `By default, all components are Server Components`.
+- Can be async.
+
+### 2.3.2 - Client Components
+
+- `Has access to web APIs such as window and document`, as well as Next.js and React APIs, such as useState and useEffect. They continue to be `pre-rendered on the server, but are "hydrated" (Hydration) on the client`.
+- To define a component as a Client Component, simply `add 'use client' to the first line of the component`.
+- Always `avoid placing client components in the app folder`.
+
+```tsx
+'use client'
+
+import Width from '@/components/width';
+
+export default function AboutPage() {
+  return (
+    <>
+      {/* won't run if 'use client' is not declared */}
+      <button onClick={() => console.log('test')}>test</button>
+      <Width />
+    </>
+  );
+}
+```
+
 ---
 
 ## 2.X - Observations
 
 - The '@' in the beginning of some import path is a shortcut for the src folder.
+- A server component can be async.
