@@ -211,6 +211,8 @@ Even the renderization is different.
 
 </details>
 
+## 2.4 - Fetch
+
 ---
 
 ## 2.X - Observations
