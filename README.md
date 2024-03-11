@@ -304,15 +304,19 @@ export default function ClientFetch() {
 
 ## 2.5 - Dynamic Routes
 
+[![](https://i.imgur.com/3yC3Xlzm.jpg)](https://i.imgur.com/3yC3Xlz.png)
+
+### 2.5.1 - id
+
 It's a folder with a name in square brackets `**[id]** indicates that the route is dynamic and the name of the passed parameter`.
 
 The `parameter is inside the params property`.
 
-### 2.5.1 - Slugs
+### 2.5.2 - Slugs
 
-If the folder name contains ... before the parameter name, you can access routes such as: /course/course-name/class/class-name. Automatically an array with the parameters will be passed to the page.
+If the folder name contains ... before the parameter name, you can access routes such as: /course/course-name/class/class-name. Automatically `an array with the parameters will be passed to the page`.
 
-### 2.5.2 - Other options
+### 2.5.3 - Others
 
 [Other options](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes)
 

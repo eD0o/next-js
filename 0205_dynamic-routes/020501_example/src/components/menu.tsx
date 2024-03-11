@@ -13,6 +13,9 @@ export default function Menu() {
         <li>
           <Link href={'/contact'}>Contact</Link>
         </li>
+        <li>
+          <Link href={'/products'}>Products</Link>
+        </li>
       </ul>
     </>
   );
