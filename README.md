@@ -22,7 +22,7 @@ The layout.tsx file is the `default layout for all pages`. It is automatically i
 <summary>Example</summary>
 
 ```tsx
-//layout.tsx
+// layout.tsx
 import type { Metadata } from 'next';
 import './globals.scss';
 import Menu from '@/components/menu';
@@ -58,6 +58,7 @@ Exporting a const metadata object will `add meta tags to the page`. It can be ex
 <summary>Example</summary>
 
 ```tsx
+// /app/about/page.tsx
 import { Metadata } from 'next';
 
 // use the Metadata inferface to see what are the correct values
@@ -122,6 +123,8 @@ When a component is created, they can have some types:
 - Always `avoid placing client components in the app folder`.
 
 ```tsx
+// /app/about/page.tsx
+
 'use client';
 
 import Width from '@/components/width';
@@ -150,6 +153,7 @@ Client Components are pre-rendered on the server, `during pre-rendering, it's no
 > If the code is inside `useEffect, it will only be activated on the client`, so we won't have any problems. But `code outside useEffect can cause errors`.
 
 ```tsx
+// /components/width.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -191,9 +195,10 @@ const Component = dynamic(() => import('@/components/Component'), {
 <summary>Example</summary>
 
 ```tsx
+// /app/about/page.tsx
 import dynamic from 'next/dynamic';
 
-// Now, the component will run properly. 
+// Now, the component will run properly.
 const Width = dynamic(() => import('@/components/width'), { ssr: false });
 
 export default function AboutPage() {
@@ -221,11 +226,95 @@ When creating a Full-Stack application, `it's possible to access the database di
 
 > The `pre-rendered cache won't update according to the API changes without the proper configuration` that will be showed later in the course.
 
+<details>
+<summary>Example server-fetch</summary>
+
+```tsx
+// /components/server-fetch.tsx
+type Product = {
+  id: number;
+  nome: string;
+};
+
+export default async function ServerFetch() {
+  const response = await fetch('https://api.origamid.online/produtos');
+
+  const data = (await response.json()) as Product[];
+
+  return (
+    <>
+      <ul>
+        {data.map((product) => (
+          <li key={product.id}>{product.nome}</li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+</details>
+
 ### 2.4.2 - Client Fetch
 
-It's also `possible to fetch data from the client, using useEffect and useState`. 
+It's also `possible to fetch data from the client, using useEffect and useState`.
 
 > However, this data `will not be pre-rendered` on the server.
+
+<details>
+<summary>Example client-fetch</summary>
+
+```tsx
+// /components/client-fetch.tsx
+'use client';
+
+type Product = {
+  id: number;
+  nome: string;
+};
+
+import { useEffect, useState } from 'react';
+
+export default function ClientFetch() {
+  const [data, setData] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('https://api.origamid.online/produtos');
+
+      const json = (await response.json()) as Product[];
+      setData(json);
+    }
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      <ul>
+        {data.map((product) => (
+          <li key={product.id}>{product.nome}</li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+</details>
+
+## 2.5 - Dynamic Routes
+
+It's a folder with a name in square brackets `**[id]** indicates that the route is dynamic and the name of the passed parameter`.
+
+The `parameter is inside the params property`.
+
+### 2.5.1 - Slugs
+
+If the folder name contains ... before the parameter name, you can access routes such as: /course/course-name/class/class-name. Automatically an array with the parameters will be passed to the page.
+
+### 2.5.2 - Other options
+
+[Other options](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes)
 
 ---
 
