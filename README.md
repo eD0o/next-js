@@ -213,9 +213,24 @@ Even the renderization is different.
 
 ## 2.4 - Fetch
 
+### 2.4.1 - Server Fetch
+
+Server Components can be defined as `asynchronous functions`, so they `fetch data from the server and return the component with the data` already available.
+
+When creating a Full-Stack application, `it's possible to access the database directly in the component`.
+
+> The `pre-rendered cache won't update according to the API changes without the proper configuration` that will be showed later in the course.
+
+### 2.4.2 - Client Fetch
+
+It's also `possible to fetch data from the client, using useEffect and useState`. 
+
+> However, this data `will not be pre-rendered` on the server.
+
 ---
 
 ## 2.X - Observations
 
 - The '@' in the beginning of some import path is a shortcut for the src folder.
 - A server component can be async.
+- consle.log() inside a Server Component will be showed up in the terminal.
