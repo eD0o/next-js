@@ -327,6 +327,34 @@ If the folder name contains ... before the parameter name, you can access routes
 
 [Other options](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes)
 
+## 2.6 - Rendering
+
+### 2.6.1 - Build
+
+Next.js has two environments, development and production.
+
+Development: `npm run dev`.
+
+Production: `npm run build` and `npm run start`.
+
+During the build, it `checks for errors, generates routes and pre-renders static pages` (SSG).
+
+It automatically `decides which type of rendering will be used`, this will `depend on the type of page, api's used and settings`.
+
+○ - (Static): prerendered as static content.
+
+- Pre-render static pages.
+- Generates a .html file for each page.
+- Loading faster.
+
+λ - (Dynamic): server-rendered on demand using Node.js.
+
+- Dynamic routes
+- Running dynamic apis (like useSearchParams)
+- mWhen fetch has no cache
+
+> If necessary, to force a page to be dynamic, use `export const dynamic = 'force-dynamic'`.
+
 ---
 
 ## 2.X - Observations
