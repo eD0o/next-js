@@ -152,6 +152,9 @@ Client Components are pre-rendered on the server, `during pre-rendering, it's no
 
 > If the code is inside `useEffect, it will only be activated on the client`, so we won't have any problems. But `code outside useEffect can cause errors`.
 
+<details>
+<summary>Example</summary>
+
 ```tsx
 // /components/width.tsx
 'use client';
@@ -182,6 +185,8 @@ export default function Width() {
   );
 }
 ```
+
+</details>
 
 So, to solute this, you `can import some component dynamically` to avoid pre-rendering using dynamic():
 
@@ -304,17 +309,19 @@ export default function ClientFetch() {
 
 ## 2.5 - Dynamic Routes
 
-[![](https://i.imgur.com/3yC3Xlzm.jpg)](https://i.imgur.com/3yC3Xlz.png)
-
 ### 2.5.1 - id
 
 It's a folder with a name in square brackets `**[id]** indicates that the route is dynamic and the name of the passed parameter`.
 
 The `parameter is inside the params property`.
 
+[![](https://i.imgur.com/6chokD0m.jpg)](https://i.imgur.com/6chokD0.png)
+
 ### 2.5.2 - Slugs
 
 If the folder name contains ... before the parameter name, you can access routes such as: /course/course-name/class/class-name. Automatically `an array with the parameters will be passed to the page`.
+
+[![](https://i.imgur.com/3yC3Xlzm.jpg)](https://i.imgur.com/3yC3Xlz.png)
 
 ### 2.5.3 - Others
 
