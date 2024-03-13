@@ -355,11 +355,48 @@ During the build, it `checks for errors, generates routes and pre-renders static
 
 ### 2.6.2 - SSG (Static Site Generation)
 
-Next.js generates a static page (.html) of the page at build time.
+Next.js `generates a static page` (.html) of the page at build time.
 
-Incremental Static Regeneration (ISR)
+#### 2.6.2.1 - ISR (Incremental Static Regeneration)
 
-> If the page has dynamic data, Next will render a new version of the page on the server, when the data is revalidated.
+It's an additional technique that improves the functionality of the SSG. It `allows specific parts of the website to be dynamically updated` in real time `without having to rebuild` the entire website.
+
+While the `SSG handles the initial generation of static pages, the ISR steps in to update specific parts` of the site as needed while `keeping the rest static`.
+
+For that, in your fetch use the prop `next: { revalidate: N }` and the amount of `time (in seconds)` in your fetch as can see below:
+
+<details>
+<summary>Example using ISR</summary>
+
+```tsx
+// stocks.tsx
+export default async function StocksPage() {
+  const response = await fetch('https://api.origamid.online/acoes/lua', {
+    next: {
+      revalidate: 5,
+    },
+  });
+  const stock = (await response.json()) as {
+    simbolo: string;
+    atualizada: string;
+  };
+
+  return (
+    <main>
+      <h1>{stock.simbolo}</h1>
+      <h1>{stock.atualizada}</h1>
+    </main>
+  );
+}
+```
+
+The `default value of revalidate is 31536000` seconds, which is basically 1 year.
+
+Thus, each time your page is loaded, `the content displayed is based on the most recent data fetched or revalidated (when necessary)` and stored in the html page file. 
+
+If fetch `updates are available, they are dynamically revalidated and incorporated **(NOT REACTIVELY)**` into the page.
+
+</details>
 
 ---
 
