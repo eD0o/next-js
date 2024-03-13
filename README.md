@@ -353,6 +353,14 @@ During the build, it `checks for errors, generates routes and pre-renders static
 
 > If necessary, to force a page to be dynamic, use `export const dynamic = 'force-dynamic'`.
 
+### 2.6.2 - SSG (Static Site Generation)
+
+Next.js generates a static page (.html) of the page at build time.
+
+Incremental Static Regeneration (ISR)
+
+> If the page has dynamic data, Next will render a new version of the page on the server, when the data is revalidated.
+
 ---
 
 ## 2.X - Observations
