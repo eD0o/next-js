@@ -398,11 +398,17 @@ If fetch `updates are available, they are dynamically revalidated and incorporat
 
 </details>
 
-### 2.6.2 - SSR (Server Side Rendering)
+### 2.6.3 - SSR (Server Side Rendering)
 
-The server-side rendering process `occurs for both static and dynamic pages`.
+The server-side rendering process occurs for both static and dynamic pages. During server-side rendering, the `content is generated on the server and included in the html files`, as evident in the browser or folder source code.
 
-However, the `dynamics are rendered on all accesses`.
+> The `dynamics can be rendered on all accesses`.
+
+### 2.6.4 - CSR (Client Side Rendering)
+
+CSR `occurs when part of the page is rendered on the client`. This is the way SPA's (Single Page App) work. This can ensure up-to-date data and fast initial loading.
+
+> However, it `can affect performance, SEO, accessibility and UX`.
 
 ---
 
