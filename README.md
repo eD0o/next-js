@@ -398,6 +398,12 @@ If fetch `updates are available, they are dynamically revalidated and incorporat
 
 </details>
 
+### 2.6.2 - SSR (Server Side Rendering)
+
+The server-side rendering process `occurs for both static and dynamic pages`.
+
+However, the `dynamics are rendered on all accesses`.
+
 ---
 
 ## 2.X - Observations
