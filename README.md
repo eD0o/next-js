@@ -76,3 +76,5 @@ export async function GET() {
 ```
 
 </details>
+
+### 3.1.3 - Request
