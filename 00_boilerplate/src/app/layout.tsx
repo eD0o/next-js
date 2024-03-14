@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
-import "./globals.scss";
+import type { Metadata } from 'next';
+import './globals.scss';
+import Menu from '@/components/menu';
 
 export const metadata: Metadata = {
-  title: "Next.js",
-  description: "Created by eD0o",
+  title: 'Next.js',
+  description: 'Created by eD0o',
 };
 
 export default function RootLayout({
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body>
+        <Menu/>
+        {children}
+      </body>
     </html>
   );
 }
