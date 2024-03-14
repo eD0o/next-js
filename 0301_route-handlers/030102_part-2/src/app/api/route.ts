@@ -1,12 +1,31 @@
-export async function GET() {
+import { cookies } from 'next/headers';
 
-  const response = await fetch('https://api.origamid.online/vendas', {
+export async function GET() {
+  const response = await fetch('https://api.origamid.online/conta/login', {
+    method: 'POST',
     headers: {
-      apikey: 'ORIGAMID123456',
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({
+      username: 'dog',
+      password: 'dog',
+    }),
   });
 
-  const sales = await response.json();
+  if (!response.ok) {
+    return Response.json({ error: 'Error in the API.' });
+  }
 
-  return Response.json(sales);
+  const data = await response.json();
+
+  // setting this way turns possible to see the cookies by the console using document.cookie
+  // cookies().set('token', data.token);
+
+  // this way is safer and won't be showed in the console
+  cookies().set('token', data.token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'lax',
+  });
+  return Response.json(data);
 }
