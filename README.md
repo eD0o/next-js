@@ -18,7 +18,6 @@ It can be `used to hide API keys`.
 ```tsx
 // app/api/route.ts
 export async function GET() {
-
   const response = await fetch('https://api.origamid.online/vendas', {
     headers: {
       apikey: 'ORIGAMID123456', //this part will be hidden in the site
@@ -149,3 +148,37 @@ POST http://localhost:3000/api?busca=camisa
 
 [Docs Next.js](https://nextjs.org/docs/app/api-reference/functions/next-request)
 [Docs Mozilla](https://developer.mozilla.org/pt-BR/docs/Web/API/Request)
+
+## 3.2 - Server Actions
+
+Functions that `run on the server but can be initiated by the client`. Put it at the beginning of the `'use server' as well as 'use client'` function or at the `beginning of the file`.
+
+They are `activated automatically through a fetch ('POST')`. Basically, `they are automatically API endpoints`.
+
+The function is not exposed on the client, they are `safe for sensitive information`.
+
+They can be `activated by events, useEffect, forms and others`.
+
+> Must be async.
+
+### 3.2.1 - Server Actions vs Route Handlers
+
+Server Actions:
+
+- Automatically configures the endpoint
+
+- It's possible to pass as an action on a form
+
+- Does not expose the endpoint on the client
+
+- Can return JSX
+
+- Allows us to revalidate the cache
+
+Route Handlers:
+
+- We need to configure the endpoint
+
+- Can be used by external services
+
+- Cannot return JSX
