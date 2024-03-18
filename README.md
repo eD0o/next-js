@@ -183,24 +183,28 @@ Route Handlers:
 
 - Cannot return JSX
 
-### 3.3 - Cache
+### 3.3 - Cache (fetching from the server)
 
-Server Actions:
+`By default, next uses force-cache`, which will create a `persistent fetch cache`.
 
-- Automatically configures the endpoint
+### 3.3.1 - revalidate
 
-- It's possible to pass as an action on a form
+revalidate is the `time in seconds that next will revalidate the fetch` cache.
 
-- Does not expose the endpoint on the client
+Revalidation occurs after the request, so the `new data will only be available on the next request`.
 
-- Can return JSX
+Using `0 will prevent caching`.`
 
-- Allows us to revalidate the cache
+```tsx
+// page.tsx
+export const revalidate = 5; // -> global const for the fetchs
+```
 
-Route Handlers:
-
-- We need to configure the endpoint
-
-- Can be used by external services
-
-- Cannot return JSX
+```tsx
+// stocks/page.tsx
+await fetch('https://api.origamid.online/acoes/lua', {
+  next: {
+    revalidate: 5, // revalidate each 5 seconds, will ignore global const
+  },
+});
+```
