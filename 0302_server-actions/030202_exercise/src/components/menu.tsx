@@ -30,13 +30,6 @@ export default async function Menu() {
         <li>
           <Link href={'/'}>Home</Link>
         </li>
-        <li>
-          {account.autorizado ? (
-            account.usuario
-          ) : (
-            <Link href={'/login'}>Login</Link>
-          )}
-        </li>
       </ul>
     </>
   );
