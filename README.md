@@ -182,3 +182,25 @@ Route Handlers:
 - Can be used by external services
 
 - Cannot return JSX
+
+### 3.3 - Cache
+
+Server Actions:
+
+- Automatically configures the endpoint
+
+- It's possible to pass as an action on a form
+
+- Does not expose the endpoint on the client
+
+- Can return JSX
+
+- Allows us to revalidate the cache
+
+Route Handlers:
+
+- We need to configure the endpoint
+
+- Can be used by external services
+
+- Cannot return JSX
