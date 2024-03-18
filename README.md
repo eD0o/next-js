@@ -208,3 +208,48 @@ await fetch('https://api.origamid.online/acoes/lua', {
   },
 });
 ```
+
+### 3.3.2 - revalidatePath
+
+It is a `function that receives the path of ONE route and revalidates its cache`.
+
+It can be executed on the server, in Route Handlers and Server Actions.
+
+```tsx
+// actions/revalidate-path.ts
+'use server';
+
+import { revalidatePath } from 'next/cache';
+
+export async function revalidatePathAction(path: string) {
+  revalidatePath(path);
+}
+```
+
+```tsx
+// components/update.tsx
+'use client';
+import { revalidatePathAction } from '@/actions/revalidate-path';
+
+export default function Update() {
+  return <button onClick={() => revalidatePathAction('/acoes')}>Update</button>;
+}
+```
+
+### 3.3.3 - revalidateTag
+
+It's possible to define tags during fetch and `revalidate the cache of MANY routes that have the same tag`.
+
+```tsx
+const response = await fetch('https://api.origamid.online/acoes/lua', {
+   next: {
+     tags: ['actions'],
+   },
+});
+```
+
+```tsx
+import { revalidateTag } from 'next/cache';
+
+revalidateTag('actions');
+```
