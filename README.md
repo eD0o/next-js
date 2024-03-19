@@ -261,3 +261,100 @@ revalidateTag('actions');
 FormData in JavaScript `simplifies collecting data from HTML forms`, streamlining sending form data in AJAX requests. It `automatically gathers and organizes form element values`, offering a concise method for data manipulation and server communication.
 
 The `form tag has an attribute called action`, which can be used to send form data through a server action. `The server action now receives a FormData as an argument`.
+
+<details>
+<summary>Example using FormData</summary>
+
+```tsx
+// actions/add-product.ts
+'use server';
+
+import { Product } from '@/app/products/page';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+
+export async function addProduct(formData: FormData) {
+  console.log(formData);
+
+  const product: Product = {
+    nome: formData.get('name') as string,
+    descricao: formData.get('description') as string,
+    preco: Number(formData.get('price')),
+    estoque: Number(formData.get('stock')),
+    importado: formData.get('imported') ? 1 : 0,
+  };
+
+  const response = await fetch('https://api.origamid.online/produtos', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(product),
+  });
+  await response.json();
+  revalidatePath('/products');
+  redirect('/products');
+}
+```
+
+```tsx
+// components/add-product.tsx
+'use client';
+
+import { addProduct } from '@/actions/add-product';
+import { useFormStatus } from 'react-dom';
+
+function Button() {
+  const status = useFormStatus();
+  return (
+    <button type="submit" disabled={status.pending}>
+      Add
+    </button>
+  );
+}
+
+export default function AddProduct() {
+  return (
+    <form action={addProduct}>
+      <label htmlFor="name">Name:</label>
+      <input type="text" id="name" name="name" />
+      <label htmlFor="price">Price:</label>
+      <input type="text" id="price" name="price" />
+      <label htmlFor="stock">Stock:</label>
+      <input type="text" id="stock" name="stock" />
+      <label htmlFor="description">Description:</label>
+      <input type="text" id="description" name="description" />
+      <label htmlFor="imported">
+        <input type="checkbox" id="imported" name="imported" />
+        Imported
+      </label>
+      <Button />
+    </form>
+  );
+}
+```
+</details>
+
+#### 3.4.2 - useFormStatus
+
+Contains the form submission `status such as pending, data, method and action`. The pending is a boolean that indicates whether the form is being submitted.
+
+It's `actually a resource from react`, but well used in next.
+
+> Importantly, useFormStatus `only works if it is part of a component that is inside a form`.
+
+<details>
+<summary>Example using useFormStatus</summary>
+
+```tsx
+function Button() {
+  const status = useFormStatus();
+  return (
+    <button type="submit" disabled={status.pending}>
+      Add
+    </button>
+  );
+}
+```
+Now, just use the <Button/> component created in the form, as it's possible to see in the FormData example. 
+</details>

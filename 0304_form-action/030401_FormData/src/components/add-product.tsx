@@ -1,27 +1,20 @@
 'use client';
 
 import { addProduct } from '@/actions/add-product';
-import { Product } from '@/app/products/page';
+import { useFormStatus } from 'react-dom';
+
+function Button() {
+  const status = useFormStatus();
+  return (
+    <button type="submit" disabled={status.pending}>
+      Add
+    </button>
+  );
+}
 
 export default function AddProduct() {
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-
-    const data: Product = {
-      nome: formData.get('name') as string,
-      preco: Number(formData.get('price')),
-      descricao: formData.get('description') as string,
-      estoque: Number(formData.get('stock')),
-      importado: formData.get('imported') === 'on' ? 1 : 0,
-    };
-
-    await addProduct(data)
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
+    <form action={addProduct}>
       <label htmlFor="name">Name:</label>
       <input type="text" id="name" name="name" />
       <label htmlFor="price">Price:</label>
@@ -34,7 +27,7 @@ export default function AddProduct() {
         <input type="checkbox" id="imported" name="imported" />
         Imported
       </label>
-      <button type="submit">Add</button>
+      <Button />
     </form>
   );
 }
