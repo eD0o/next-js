@@ -253,3 +253,11 @@ import { revalidateTag } from 'next/cache';
 
 revalidateTag('actions');
 ```
+
+### 3.4 - Form Actions
+
+#### 3.4.1 - FormData
+
+FormData in JavaScript `simplifies collecting data from HTML forms`, streamlining sending form data in AJAX requests. It `automatically gathers and organizes form element values`, offering a concise method for data manipulation and server communication.
+
+The `form tag has an attribute called action`, which can be used to send form data through a server action. `The server action now receives a FormData as an argument`.
