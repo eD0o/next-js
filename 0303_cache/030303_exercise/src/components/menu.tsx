@@ -8,7 +8,10 @@ export default function Menu() {
           <Link href={'/'}>Home</Link>
         </li>
         <li>
-          <Link href={'/stocks'}>Stocks</Link>
+          <Link href={'/products'}>Products</Link>
+        </li>
+        <li>
+          <Link href={'/products/add'}>Add Product</Link>
         </li>
       </ul>
     </>
