@@ -242,9 +242,9 @@ It's possible to define tags during fetch and `revalidate the cache of MANY rout
 
 ```tsx
 const response = await fetch('https://api.origamid.online/acoes/lua', {
-   next: {
-     tags: ['actions'],
-   },
+  next: {
+    tags: ['actions'],
+  },
 });
 ```
 
@@ -333,6 +333,7 @@ export default function AddProduct() {
   );
 }
 ```
+
 </details>
 
 #### 3.4.2 - useFormStatus
@@ -341,7 +342,7 @@ Contains the form submission `status such as pending, data, method and action`. 
 
 It's `actually a resource from react`, but well used in next.
 
-> Importantly, useFormStatus `only works if it is part of a component that is inside a form`.
+> Importantly, useFormStatus `only works if it is part of a component that is inside a form`, also, requires 'use client' (for being a React hook).
 
 <details>
 <summary>Example using useFormStatus</summary>
@@ -356,7 +357,124 @@ function Button() {
   );
 }
 ```
-Now, just use the <Button/> component created in the form, as it's possible to see in the FormData example. 
+
+Now, just use the <Button/> component created in the form, as it's possible to see in the FormData example.
+
 </details>
 
 #### 3.4.3 - useFormState
+
+With useFormState it's possible to `control the state of the form`. `Returns an array with two values`, the first is the `form state and the second is the server action`. It must receive the original server action as an argument.
+
+> Avoid using redirect() inside a try-catch closure, it'll generate the NEXT_REDIRECT error.
+
+<details>
+<summary>Example using useFormState</summary>
+
+```tsx
+// /components/add-product.tsx
+'use client';
+
+import { addProduct } from '@/actions/add-product';
+import { error } from 'console';
+import { useFormState, useFormStatus } from 'react-dom';
+
+function Button() {
+  const status = useFormStatus();
+  return (
+    <button type="submit" disabled={status.pending}>
+      Add
+    </button>
+  );
+}
+
+export default function AddProduct() {
+  const [state, formAction] = useFormState(addProduct, {
+    errors: [],
+  });
+
+  console.log(state);
+
+  return (
+    <form action={formAction}>
+      <label htmlFor="name">Name:</label>
+      <input type="text" id="name" name="name" />
+      <label htmlFor="price">Price:</label>
+      <input type="text" id="price" name="price" />
+      <label htmlFor="stock">Stock:</label>
+      <input type="text" id="stock" name="stock" />
+      <label htmlFor="description">Description:</label>
+      <input type="text" id="description" name="description" />
+      <label htmlFor="imported">
+        <input type="checkbox" id="imported" name="imported" />
+        Imported
+      </label>
+      {state.errors.map((error, index) => (
+        <p style={{ color: 'red' }} key={index}>
+          {error}
+        </p>
+      ))}
+      <Button />
+    </form>
+  );
+}
+```
+
+```tsx
+// /actions/add-product.ts
+'use server';
+
+import { Product } from '@/app/products/page';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+
+function validateName(name: string) {
+  return typeof name === 'string' && name.length > 1;
+}
+
+function validatePrice(price: unknown) {
+  return typeof price === 'number' && price > 1;
+}
+
+export async function addProduct(
+  state: { errors: string[] },
+  formData: FormData,
+) {
+  const product: Product = {
+    nome: formData.get('name') as string,
+    descricao: formData.get('description') as string,
+    preco: Number(formData.get('price')),
+    estoque: Number(formData.get('stock')),
+    importado: formData.get('imported') ? 1 : 0,
+  };
+
+  let errors = [];
+
+  if (!validateName(product.nome)) errors.push('Error: Name invalid.');
+  if (!validatePrice(product.preco)) errors.push('Error: Price invalid.');
+  if (errors.length > 0) return { errors };
+
+  try {
+    const response = await fetch('https://api.origamid.online/produtos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(product),
+    });
+    if (!response.ok) throw new Error('Error adding product.');
+  } catch (error: unknown) {
+    if (error instanceof Error)
+      return {
+        errors: [error.message],
+      };
+  }
+  revalidatePath('/products');
+  redirect('/products');
+  // return { errors: [] };
+}
+```
+
+</details>
+
+### 3.5 - Error

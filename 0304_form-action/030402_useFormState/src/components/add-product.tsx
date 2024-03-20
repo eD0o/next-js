@@ -1,7 +1,8 @@
 'use client';
 
 import { addProduct } from '@/actions/add-product';
-import { useFormStatus } from 'react-dom';
+import { error } from 'console';
+import { useFormState, useFormStatus } from 'react-dom';
 
 function Button() {
   const status = useFormStatus();
@@ -13,8 +14,14 @@ function Button() {
 }
 
 export default function AddProduct() {
+  const [state, formAction] = useFormState(addProduct, {
+    errors: [],
+  });
+
+  console.log(state);
+
   return (
-    <form action={addProduct}>
+    <form action={formAction}>
       <label htmlFor="name">Name:</label>
       <input type="text" id="name" name="name" />
       <label htmlFor="price">Price:</label>
@@ -27,6 +34,11 @@ export default function AddProduct() {
         <input type="checkbox" id="imported" name="imported" />
         Imported
       </label>
+      {state.errors.map((error, index) => (
+        <p style={{ color: 'red' }} key={index}>
+          {error}
+        </p>
+      ))}
       <Button />
     </form>
   );
