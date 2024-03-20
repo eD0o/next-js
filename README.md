@@ -478,3 +478,115 @@ export async function addProduct(
 </details>
 
 ### 3.5 - Error
+
+Errors can occur at different times in our application, but mainly when we deal with code that depends on an external part, such as APIs, databases, etc.
+
+#### 3.5.1 - error.tsx
+
+It's possible to `create an error.tsx file in the same folder as our route to handle errors` that occur during page execution.
+
+> Must be a client component ('use client');
+
+<details>
+<summary>Example using error.tsx</summary>
+
+```tsx
+// /app/products/error.tsx
+'use client';
+
+export default function ProductsError({ error }: { error: Error }) {
+  return (
+    <main>
+      <h1>An error occurred.</h1>
+      <p>Description: {error.message}</p>
+    </main>
+  );
+}
+```
+
+</details>
+
+#### 3.5.2 - Global error
+
+If the route does not have an error.tsx file, it's `possible to create a global component` to handle errors.
+
+It should be called `global-error.tsx` and `be in the root of the app folder`.
+
+> It will replace the entire layout.tsx when displayed.
+
+<details>
+<summary>Example using global error</summary>
+
+```tsx
+// /app/global-error.tsx
+'use client';
+
+export default function GlobalError({
+  error,
+}: {
+  //digest is a summarized or condensed version of something,
+  // generally used to represent information in a compact and identifiable way
+  error: Error & { digest?: string };
+}) {
+  return (
+    <html>
+      <body>
+        <h1>Error</h1>
+        <p>Description: {error.message}</p>
+      </body>
+    </html>
+  );
+}
+```
+
+</details>
+
+#### 3.5.3 - try/catch
+
+Also, try/catch ia a way to handle errors. Thus, the `page is loaded but the part with error won't be displayed`.
+
+<details>
+<summary>Example using try/catch</summary>
+
+```tsx
+// /components/products-list.tsx
+export type Product = {
+  id?: string;
+  nome: string;
+  preco: number;
+  descricao: string;
+  estoque: number;
+  importado: 0 | 1;
+};
+
+export default async function ProductsList() {
+  let products: Product[] = [];
+  try {
+    const response = await fetch(
+      'https://api.origamid.online/produtossssssssssssssssssssssssssssss',
+      {
+        next: {
+          revalidate: 5,
+        },
+      },
+    );
+
+    if (!response.ok) throw new Error(`It wasn't possible to load products.`);
+    products = (await response.json()) as Product[];
+  } catch (err) {
+    return <p>An error occurred in the list.</p>;
+  }
+
+  return (
+    <ul>
+      {products.map((product) => (
+        <li key={product.id}>
+          {product.nome}: R$ {product.preco}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+</details>
