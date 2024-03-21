@@ -590,3 +590,48 @@ export default async function ProductsList() {
 ```
 
 </details>
+
+## 3.6 - Loading and Suspense
+
+### 3.6.1 - Loading
+
+Wraps the content of page.tsx in a Suspense and `uses the body of loading.tsx as a fallback`.
+
+> All the page will be "loading".
+
+```tsx
+// /app/products/loading.tsx
+export default function Loading() {
+  return (
+    <p>Loading...</p>
+  )
+}
+```
+
+### 3.6.2 - Suspense
+
+Suspense is used to `wrap the component being loaded asynchronously`. Thus, it has `greater control over the page`.
+
+The <Suspense> child is `loaded via SSR`. While `loading occurs, fallback will be displayed`.
+
+It's `possible to use many` <Suspense> in a page.
+
+```tsx
+// /app/products/page.tsx
+import ProductsList from '@/components/products-list';
+import { Suspense } from 'react';
+import Loading from './loading';
+
+export default async function ProductsPage() {
+  return (
+    <main>
+      <h1>Products</h1>
+      <p>Products list:</p>
+      // Now, the component ProductsList will load individually.
+      <Suspense fallback={<Loading />}>
+        <ProductsList />
+      </Suspense>
+    </main>
+  );
+}
+```
