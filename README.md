@@ -38,6 +38,8 @@ React.useEffect(() => {
 
 Gives access to the Next.js router object, which has `methods for navigation, preloading, back, forward, and page reload`.
 
+> Use the import { useRouter } from 'next/navigation' (at least until the last update).
+
 ```tsx
 'use client';
 // disclaimer: it's not - import { useRouter } from 'next/router';
@@ -45,7 +47,7 @@ import { useRouter } from 'next/navigation';
 
 const router = useRouter();
 
-router.push('/products'); //navigate to the products page
+router.push('/products'); //navigate to the products page (in the client-side)
 router.prefetch('/products'); // preload the products page
 router.back(); // back (history)
 router.forward(); // advance (history)
@@ -55,6 +57,8 @@ router.refresh(); // reload the route, fetch data again from the server (revalid
 ### 4.1.4 - useSearchParams
 
 `Returns an object with the URL's search parameters`. /products/?search=shirt returns {search: 'shirt'}.
+
+> Need to be inside a <Suspense> wrapper component.
 
 ```tsx
 'use client';
