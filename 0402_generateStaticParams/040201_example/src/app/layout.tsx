@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body>
-        <Menu />
+        <Menu/>
         {children}
       </body>
     </html>
