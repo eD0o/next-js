@@ -1,50 +1,73 @@
-# 1 - Introduction
+# 4 - Hooks and Functions
 
-## Next.js vs React:
+## 4.1 - Router Hooks ('use client')
 
-- React (Vite/CRA)
+### 4.1.1 - useParams
 
-* Runs in the browser (client)
-* Serves pages that are populated by JavaScript
-* Can negatively impact SEO
-* Depends on plugins (react-router)
-* Deployment can be done on any hosting
+Returns an `object with the URL parameters`. 
 
-- Next.js
+Usually used in components, since the {params} don't work on them.
 
-* Runs in the browser (client) and on the server (server)
-* Serves pages already rendered on the server (SSR)
-* Can improve SEO and initial loading
-* Try to be a complete solution (routes, API, etc.)
-* It's a framework, so it gives you more rules
-* Deployment must be done on a Node.js server
-* Bugs, changes and updates
+Example: /courses/[course]/[class] returns {course: 'react', class: 'hooks'}.
 
-## Tools:
+```tsx
+'use client';
+import { useParams } from 'next/navigation';
 
-VS Code, Node, Git, NPM e TypeScript
+const params = useParams();
+params.course; // 'react'
+params.class; // 'hooks'
+```
 
-## settings.json:
+### 4.1.2 - usePathname
 
-```json
-{
-  "files.associations": {
-    "*.js": "javascriptreact",
-    "*.tsx": "typescriptreact"
-  },
-  "prettier.trailingComma": "all",
-  "prettier.singleQuote": true,
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+`Returns the current URL`, can be `used to identify changes in the route` (navigation).
+
+```tsx
+'use client';
+import { usePathname } from 'next/navigation';
+
+const pathname = usePathname();
+
+React.useEffect(() => {
+  console.log('Route changed!');
+}, [pathname]);
+```
+
+### 4.1.3 - useRouter
+
+Gives access to the Next.js router object, which has `methods for navigation, preloading, back, forward, and page reload`.
+
+```tsx
+'use client';
+// disclaimer: it's not - import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
+
+const router = useRouter();
+
+router.push('/products'); //navigate to the products page
+router.prefetch('/products'); // preload the products page
+router.back(); // back (history)
+router.forward(); // advance (history)
+router.refresh(); // reload the route, fetch data again from the server (revalidate: 5)
+```
+
+### 4.1.4 - useSearchParams
+
+`Returns an object with the URL's search parameters`. /products/?search=shirt returns {search: 'shirt'}.
+
+```tsx
+'use client';
+import { useSearchParams } from 'next/navigation';
+
+export function Search() {
+   const searchParams = useSearchParams();
+   const search = searchParams.get('search');
+   return <div>Search: {search}</div>;
 }
+
+// needs to be suspended, because during pre-rendering we do not have access to the search values
+<Suspense fallback={'Loading...'}>
+   <Search />
+</Suspense>;
 ```
