@@ -75,3 +75,12 @@ export function Search() {
    <Search />
 </Suspense>;
 ```
+
+
+## 4.2 - generateStaticParams
+
+Generates `dynamic route parameters, allowing the pre-rendering` of these pages at build time.
+
+### 4.2.1 - Async
+
+It's `possible to pull the list from an external API` to generate the parameters.
