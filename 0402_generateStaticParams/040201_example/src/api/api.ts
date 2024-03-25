@@ -7,7 +7,7 @@ type Course = {
   total_horas: number;
 };
 
-type Class = {
+export type Class = {
   id: number;
   slug: string;
   nome: string;

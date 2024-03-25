@@ -1,4 +1,4 @@
-import { getCourse } from '@/api/api';
+import { getCourse, getCourses } from '@/api/api';
 import Link from 'next/link';
 
 type PageParams = {
@@ -6,6 +6,14 @@ type PageParams = {
     course: string;
   };
 };
+
+export async function generateStaticParams() {
+  const courses = await getCourses();  
+
+  return courses.map((course) => ({
+    course: course.slug,
+  }));
+}
 
 export default async function CoursePage({ params }: PageParams) {
   const course = await getCourse(params.course);

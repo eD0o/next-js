@@ -4,7 +4,7 @@
 
 ### 4.1.1 - useParams
 
-Returns an `object with the URL parameters`. 
+Returns an `object with the URL parameters`.
 
 Usually used in components, since the {params} don't work on them.
 
@@ -65,22 +65,63 @@ router.refresh(); // reload the route, fetch data again from the server (revalid
 import { useSearchParams } from 'next/navigation';
 
 export function Search() {
-   const searchParams = useSearchParams();
-   const search = searchParams.get('search');
-   return <div>Search: {search}</div>;
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search');
+  return <div>Search: {search}</div>;
 }
 
 // needs to be suspended, because during pre-rendering we do not have access to the search values
 <Suspense fallback={'Loading...'}>
-   <Search />
+  <Search />
 </Suspense>;
 ```
-
 
 ## 4.2 - generateStaticParams
 
 Generates `dynamic route parameters, allowing the pre-rendering` of these pages at build time.
 
+```tsx
+//This is way is selective and manual.
+export function generateStaticParams() {
+  return [
+    { curso: 'html' },
+    { curso: 'css' },
+    { curso: 'javascript' },
+    { curso: 'ui-design' },
+    { curso: 'ux-design' },
+    { curso: 'tipografia' },
+  ];
+}
+```
+
 ### 4.2.1 - Async
 
 It's `possible to pull the list from an external API` to generate the parameters.
+
+```tsx
+// This is way is automatic.
+export async function generateStaticParams() {
+  const courses = await getCourses();
+
+  return courses.map((curso) => ({
+    curso: curso.slug,
+  }));
+}
+```
+
+```tsx
+// Another example
+export async function generateStaticParams() {
+  const courses = await getCourses();
+  const classes = await Promise.all(
+    courses.map((course) => getCourse(course.slug)),
+  );
+  return classes
+    .reduce((acc: Class[], course) => acc.concat(course.aulas), [])
+    .map((classCourse) => ({
+      course: courses.find((course) => course.id === classCourse.curso_id)
+        ?.slug,
+      classCourse: classCourse.slug,
+    }));
+}
+```
