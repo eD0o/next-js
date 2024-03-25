@@ -5,6 +5,7 @@ type Course = {
   descricao: string;
   total_aulas: number;
   total_horas: number;
+  error?: string
 };
 
 export type Class = {

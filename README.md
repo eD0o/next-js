@@ -143,3 +143,33 @@ export async function generateMetadata({
   };
 }
 ```
+
+## 4.4 - notFound (404)
+
+This page is rendered when the route is not found (404).
+
+Just create the file (not-found.tsx) at the app folder.
+
+```tsx
+// app\courses\not-found.tsx
+import Link from 'next/link';
+
+export default function NotFound() {
+  return (
+    <div>
+      <h2>Page not found</h2>
+      <Link href="/">Return to Home</Link>
+    </div>
+  );
+}
+```
+
+> Also, for dynamic routes it's possible to import and render it when not found as well.
+
+```tsx
+export default async function CoursePage({ params }: PageParams) {
+  const course = await getCourse(params.course);
+
+  if(course.error) return notFound()
+...
+```
