@@ -125,3 +125,21 @@ export async function generateStaticParams() {
     }));
 }
 ```
+
+## 4.3 - generateMetadata
+
+In dynamic pages, it's necessary `dynamic metadata`. To do this, we can use the generateMetadata function.
+
+```tsx
+// app\courses\[course]\page.tsx
+export async function generateMetadata({
+  params,
+}: PageParams): Promise<Metadata> {
+  // if you do the same fetch in the body of the page, React will use the fetch cache, avoiding duplicate requests.
+  const course = await getCourse(params.course);
+  return {
+    title: `${course.nome}`,
+    description: course.descricao,
+  };
+}
+```
