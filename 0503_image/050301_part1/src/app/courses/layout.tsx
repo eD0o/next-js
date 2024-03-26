@@ -1,14 +1,3 @@
-# 5 - Files and Components
-
-## 5.1 - Layout
-
-It's viable to create a `layout.tsx file within a route, thus, its content becomes part of all pages within that route`.
-
-<details>
-<summary>Example</summary>
-
-```tsx
-// app\courses\layout.tsx
 import { getCourses } from '@/api/api';
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -40,20 +29,3 @@ export default async function CoursesLayout({
     </div>
   );
 }
-```
-
-</details>
-
-## 5.2 - Next CSS
-
-It's possible to use `CSS Modules, Sass, styled-components, CSS-in-JS and Tailwind`. It's up to you.
-
-[CSS Modules Extension](https://marketplace.visualstudio.com/items?itemName=clinyong.vscode-css-modules) - good extension to autocomplete class selectors.
-
-[Other Docs](https://nextjs.org/docs/app/building-your-application/styling)
-
-> In this course, I'm using Sass as my preference.
-
-## 5.3 - Image
-
-### 5.3.1 - Image Component
