@@ -57,3 +57,48 @@ It's possible to use `CSS Modules, Sass, styled-components, CSS-in-JS and Tailwi
 ## 5.3 - Image
 
 ### 5.3.1 - Image Component
+
+Next.js has a component called Image that is used to `load images in an optimized way`.
+
+```tsx
+import Image from 'next/image';
+<Image
+  src="https://api.origamid.online/imagens/lobo_1.jpg"
+  width={1200} // use the original value or the maximum value
+  height={800} // must be proportional to the width, respecting the proportion
+  alt="White wolf sleeping on rocks"
+  quality={80} // defines the image quality
+  sizes="100vw"
+/>;
+```
+
+It's recommended to apply these styles:
+
+```css
+img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  display: block;
+}
+```
+
+### 5.3.2 - remotePatterns
+
+For security, it's `necessary to inform Next.js of the URLs that can be used for images`. This is done in the next.config.mjs file.
+
+```mjs
+// next.config.mjs
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.origamid.online',
+        port: '',
+        pathname: '/imagens/**',
+      },
+    ],
+  },
+};
+```
