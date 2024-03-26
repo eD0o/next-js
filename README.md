@@ -43,3 +43,15 @@ export default async function CoursesLayout({
 ```
 
 </details>
+
+## 5.2 - Next CSS
+
+It's possible to use `CSS Modules, Sass, styled-components, CSS-in-JS and Tailwind`. It's up to you.
+
+[CSS Modules Extension](https://marketplace.visualstudio.com/items?itemName=clinyong.vscode-css-modules) - good extension to autocomplete class selectors.
+
+[Other Docs](https://nextjs.org/docs/app/building-your-application/styling)
+
+> In this course, I'm using Sass as my preference.
+
+[test]
