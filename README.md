@@ -67,8 +67,8 @@ import Image from 'next/image';
   width={1200} // use the original value or the maximum value
   height={800} // must be proportional to the width, respecting the proportion
   alt="White wolf sleeping on rocks"
-  quality={80} // defines the image quality
-  sizes="100vw"
+  quality={80} // defines the image quality, 75 is the default
+  sizes="100vw" // occupies 100% of the viewport whenever possible.
 />;
 ```
 
@@ -102,3 +102,28 @@ const nextConfig = {
   },
 };
 ```
+### 5.3.3 - Image Sizes
+
+Next.js `generates images in different sizes` according to the possible screen sizes defined in deviceSizes. The image that will be served is `decided by according to the screen size at the time of loading`.
+
+It just `loads different sizes if settled the **sizes** attribute on the Image component`. A value like `100vw means that Next.js should always load an image that can fill 100% of the viewport` whenever possible.
+
+Example:
+
+(Image Component)
+sizes="100vw"
+
+(next.config.mjs)
+deviceSizes:
+[600, 800, 1200, 2400, 3600] -> possible values to the `width of the image according to the current screen size`.
+
+default values: [640, 750, 828, 1080, 1200, 1920, 2048, 3840]
+
+---
+
+BrowserWidth: 900px - Image rendered: 1200px.
+BrowserWidth: 1800px - Image rendered: 2400px.
+
+> Changes according to screen pixel density [4k (2x)]:
+
+BrowserWidth: 900px (1800px), Image: 2400px.
