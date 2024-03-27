@@ -170,3 +170,36 @@ BrowserWidth = 1300px, Image = 800px (1300/2 = 650 -> 800).
   ))}
 </ul>
 ```
+
+## 5.4 - Fonts
+
+Next.js `automatically imports fonts from Google Fonts` in an optimized way.
+
+```tsx
+//app/fonts.ts
+import { Roboto } from 'next/font/google';
+
+export const font_body = Roboto({
+  weight: ['400', '700'], // font weight
+  style: ['normal'], // font style, italic/normal
+  subsets: ['latin'], // choose the subset, decrease the file size
+  variable: '--font-body', // defines a css variable
+  display: 'swap', // shows the backup source while the main one loads
+});
+```
+
+### 5.4.1 - Local Fonts
+
+It's possible to use `font files through the localFont` function.
+
+```tsx
+import localFont from 'next/font/local';
+
+export const font_mono = localFont({
+  src: '../fonts/IBMPlexMono-Regular.ttf',
+  weight: '400',
+  style: 'normal',
+  variable: '--font-mono',
+  display: 'swap',
+});
+```
