@@ -203,3 +203,40 @@ export const font_mono = localFont({
   display: 'swap',
 });
 ```
+
+## 5.5 - Scripts
+
+The Script component (import Script from 'next/script') is `used to load scripts within Next.js`.
+
+The `strategy attribute will define if the script will be loaded before or after the site is loaded` and interactive.
+
+```tsx
+import Script from 'next/script';
+
+export default async function Home() {
+  return (
+    <main>
+      <h1>Hello World</h1>
+      {/* Examples */}
+      <Script
+        id="legal-age"
+        strategy="beforeInteractive"
+        src="https://api.origamid.online/scripts/idade-legal.min.js"
+      />
+      <Script
+        id="google-tag-script"
+        strategy="afterInteractive"
+        src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXX"
+      />
+      <Script id="google-tag">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XXXXXXXXX');
+        `}
+      </Script>
+    </main>
+  );
+}
+```
