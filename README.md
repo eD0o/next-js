@@ -271,3 +271,85 @@ export const config = {
 Protects routes and check if the used is authenticated.
 
 > Not so used, usually JWT is more recommended.
+
+### 5.6.3 - Cookies
+
+It's `possible to access the request cookies via request.cookies and set new cookies in the response` via response.cookies. Also, possible to `access the request and response headers`.
+
+```tsx
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export async function middleware(request: NextRequest) {
+   const token = request.cookies.get('token')?.value;
+
+   const response = NextResponse.next();
+
+   response.cookies.set('accessAccount', 'true');
+   response.cookies.delete('token');
+
+   return response;
+}
+
+export const config = {
+   matcher: ['/'],
+};
+```
+
+### 5.6.4 - Matcher
+
+It's a middleware `property that defines which routes the middleware will be applied` to.
+
+```tsx
+['/courses'] // route /courses
+['/cursos', '/login'] // route /cursos and /login
+['/cursos/:path*'] // all routes that start with /cursos
+['/(.*)'] or ['/:path*'] // all routes starting with /
+['/((?!api|_next|static|public|favicon.ico).*)'] // it also accepts regex:
+// ex: all routes that don't start with /api, /_next, /static, /public, /favicon.ico
+
+{
+   source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+   // ignore if prefetch
+   missing: [
+     { type: 'header', key: 'next-router-prefetch' },
+     { type: 'header', key: 'purpose', value: 'prefetch' },
+   ],
+},
+```
+
+### 5.6.5 -  Multiple Middleware
+
+At the moment, it is `not possible to define multiple middlewares`, so, it's necessary to `create conditionals within the middleware for what you want`.
+
+```tsx
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export function middleware(request: NextRequest) {
+   // redirect if the user tries a wrong/old route
+   if (request.nextUrl.pathname.startsWith('/signin')) {
+     return NextResponse.redirect(new URL('/login', request.url));
+   }
+
+   // check if you have the token and if you are trying to log into /account
+   const token = request.cookies.get('token')?.value;
+   if (!token && request.nextUrl.pathname.startsWith('/conta')) {
+     return NextResponse.redirect(new URL('/login', request.url));
+   }
+
+   return NextResponse.next();
+}
+
+export const config = {
+   matcher: [
+     {
+       source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+       missing: [
+         { type: 'header', key: 'next-router-prefetch' },
+         { type: 'header', key: 'purpose', value: 'prefetch' },
+       ],
+     },
+   ],
+};
+```
