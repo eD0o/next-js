@@ -240,3 +240,4 @@ export default async function Home() {
   );
 }
 ```
+## 5.6 - Middleware
