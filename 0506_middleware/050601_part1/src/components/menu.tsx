@@ -11,7 +11,7 @@ export default function Menu() {
           <Link href={'/account'}>Account</Link>
         </li>
         <li>
-          <Link href={'/Login'}>Login</Link>
+          <Link href={'/login'}>Login</Link>
         </li>
       </ul>
     </>

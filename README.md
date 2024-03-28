@@ -240,4 +240,34 @@ export default async function Home() {
   );
 }
 ```
+
 ## 5.6 - Middleware
+
+It is `a function that runs before the page loads, it intercepts the request and has access` to the request object: `NextRequest and NextResponse` response.
+
+It can be `used for authentication, logging, redirection`, etc.
+
+### 5.6.1 - Redirect
+
+Used to `redirect the user to another page`. Just return NextResponse.redirect().
+
+```tsx
+// src/middleware.ts
+import { NextRequest, NextResponse } from 'next/server';
+
+export function middleware(request: NextRequest) {
+  console.log(`${request.nextUrl.pathname}`);
+  return NextResponse.redirect(new URL('/login', request.url));
+}
+
+// if this route is used, will be redirected to /login
+export const config = {
+  matcher: '/signin',
+};
+```
+
+### 5.6.2 - Protecting Routes
+
+Protects routes and check if the used is authenticated.
+
+> Not so used, usually JWT is more recommended.
