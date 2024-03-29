@@ -1,6 +1,1 @@
-# Next.js Course
-## Technologies covered:
-
-- Typescript
-- React
-- Next.js
+# 6 - Project
