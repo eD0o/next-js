@@ -1,5 +1,4 @@
 'use client';
-
 import login from '@/actions/login';
 import { useFormState, useFormStatus } from 'react-dom';
 import Button from '@/components//Forms/button';
@@ -8,6 +7,7 @@ import ErrorMessage from '../Helper/error-message';
 import { useEffect } from 'react';
 import Link from 'next/link';
 import styles from './login-form.module.scss';
+import { useUser } from '@/context/user-context';
 
 function FormButton() {
   const { pending } = useFormStatus();
