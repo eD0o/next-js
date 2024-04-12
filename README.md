@@ -1,50 +1,16 @@
-# 1 - Introduction
+# 7 - Final
 
-## Next.js vs React:
+## 7.1 - Deploy
 
-- React (Vite/CRA)
+To deploy your next.js application, you have to:
 
-* Runs in the browser (client)
-* Serves pages that are populated by JavaScript
-* Can negatively impact SEO
-* Depends on plugins (react-router)
-* Deployment can be done on any hosting
+- **Build** your project using: ``yarn build / npm run build``.
+- **Use a node.js server**, in this case can be Vercel.
+- Link the github and its repo (it needs to be in the main branch) with your Vercel account.
+- It's possible to install some plugins and use some DevOps in the Vercel website for your hosting.
 
-- Next.js
+> You can use (secret) local environment variables for your code creating a .env.local file.
 
-* Runs in the browser (client) and on the server (server)
-* Serves pages already rendered on the server (SSR)
-* Can improve SEO and initial loading
-* Try to be a complete solution (routes, API, etc.)
-* It's a framework, so it gives you more rules
-* Deployment must be done on a Node.js server
-* Bugs, changes and updates
+## 7.2 - Conclusion
 
-## Tools:
-
-VS Code, Node, Git, NPM e TypeScript
-
-## settings.json:
-
-```json
-{
-  "files.associations": {
-    "*.js": "javascriptreact",
-    "*.tsx": "typescriptreact"
-  },
-  "prettier.trailingComma": "all",
-  "prettier.singleQuote": true,
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
-}
-```
+- Be careful mixing Back-end with Front-end in Next.js, it's possible, but understand that is risky when the project gets more scalable. It's more flexible to have these stacks divided.
